@@ -1,0 +1,29 @@
+services:
+  shadowbox:
+    image: quay.io/outline/shadowbox:stable
+    container_name: shadowbox
+    restart: always
+    volumes:
+      - ./data/persisted-state:/opt/outline/persisted-state:z
+    environment:
+      - SB_STATE_DIR=/opt/outline/persisted-state
+      - SB_API_PORT=8080
+      - SB_API_PREFIX=${SB_API_PREFIX}
+      - SB_CERTIFICATE_FILE=${CERT_FILE}
+      - SB_PRIVATE_KEY_FILE=${KEY_FILE}
+    ports:
+      - "${API_PORT}:8080/tcp"
+      - "${KEYS_PORT}:${KEYS_PORT}/tcp"
+      - "${KEYS_PORT}:${KEYS_PORT}/udp"
+    sysctls:
+      - net.ipv4.ip_unprivileged_port_start=0
+    cap_add:
+      - NET_ADMIN
+    healthcheck:
+      test: >
+        curl -f --insecure
+        https://localhost:8080/${SB_API_PREFIX}/server
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 30s

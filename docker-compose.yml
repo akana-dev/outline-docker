@@ -15,6 +15,10 @@ services:
       - "${API_PORT}:8080/tcp"
       - "${KEYS_PORT}:${KEYS_PORT}/tcp"
       - "${KEYS_PORT}:${KEYS_PORT}/udp"
+      ## Metrics ports (uncomment if needed)
+      # - "127.0.0.1:9090:9090"
+      # - "127.0.0.1:9091:9091"
+      # - "127.0.0.1:9092:9092"
     sysctls:
       - net.ipv4.ip_unprivileged_port_start=0
     cap_add:

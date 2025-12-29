@@ -4,16 +4,29 @@ set -euo pipefail
 command -v docker compose >/dev/null || { echo "❌ docker compose не найден"; exit 1; }
 command -v openssl >/dev/null || { echo "❌ openssl не найден"; exit 1; }
 
-if [[ ! -f .env.generated ]]; then
+if [[ ! -f .env ]]; then
+  echo "🔍 Определение публичного IP..."
+  if PUBLIC_IP=$(ip route get 1.1.1.1 | awk '{print $7; exit}'); then
+    echo "✅ Обнаружен публичный IP: $PUBLIC_IP"
+    echo "PUBLIC_HOSTNAME=$PUBLIC_IP" > .env
+  else
+    echo "❌ Не удалось определить публичный IP"
+    echo "   Укажите вручную: echo \"PUBLIC_HOSTNAME=ваш.ip\" > .env"
+    exit 1
+  fi
+else
+  echo "ℹ️  Файл .env уже существует"
+fi
+
+if ! grep -q "^API_PORT=" .env; then
+  chmod +x ./init/init-outline.sh
   echo "🔄 Запуск инициализации Outline..."
   ./init/init-outline.sh
 else
-  echo "ℹ️  Инициализация уже выполнена (.env.generated существует)"
+  echo "ℹ️  Инициализация уже выполнена"
 fi
 
-set -a
-source .env.generated
-set +a
+export $(grep -v '^#' .env | xargs)
 
 echo "🐳 Запуск контейнеров..."
 docker compose up -d

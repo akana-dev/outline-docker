@@ -25,10 +25,7 @@
 git clone https://github.com/your/outline-docker.git
 cd outline-docker
 
-# 2. Укажите ваш публичный IP или домен
-echo "PUBLIC_HOSTNAME=ваш.публичный.ip" > .env
-
-# 3. Запустите инициализацию и запуск
+# 2. Запустите инициализацию и запуск
 ./start.sh
 ## или
 make all
@@ -50,8 +47,7 @@ outline-docker/
 ├── init/
 │   └── init-outline.sh      # генерация конфигурации
 ├── docker-compose.yml       # конфигурация контейнера
-├── .env                     # ваш публичный IP/домен
-├── .env.generated           # сгенерированные порты и секреты (не редактировать!)
+├── .env                     # сгенерированные ip, порты и секреты (не редактировать!)
 └── data/
     ├── access.txt           # данные для Outline Manager (скопируйте этот JSON!)
     └── persisted-state/     # постоянное состояние сервера

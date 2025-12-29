@@ -60,4 +60,7 @@ EOF
   echo "{\"apiUrl\":\"${API_URL}\",\"certSha256\":\"${CERT_SHA256}\"}"
 fi
 
+echo "🔧 Создание keep-alive ключа..."
+curl -sfk "https://localhost:${API_PORT}/${SB_API_PREFIX}/access-keys" -X POST -d '{"name":"keep-alive"}' >/dev/null  
+
 echo "✅ Готово!"

@@ -41,6 +41,8 @@ access.txt: start
 	echo "certSha256:$${CERT_SHA256}" >> ./data/access.txt; \
 	echo "📄 Конфиг для Outline Manager:"; \
 	echo "{\"apiUrl\":\"$${API_URL}\",\"certSha256\":\"$${CERT_SHA256}\"}"
+	echo "🔧 Создание keep-alive ключа..."
+	curl -sfk "https://localhost:${API_PORT}/${SB_API_PREFIX}/access-keys" -X POST -d '{"name":"keep-alive"}' >/dev/null
 
 restart:
 	docker compose down

@@ -2,7 +2,7 @@
 
 Этот проект позволяет развернуть **Outline VPN Server** в изолированном Docker-окружении. Подходит для быстрого запуска персонального VPN-сервера с минимальными зависимостями.
 
-> ✅ На основе официального образа [`quay.io/outline/shadowbox`](https://quay.io/repository/outline/shadowbox)  
+> ✅ На основе официального образа [`quay.io/outline/shadowbox`](https://github.com/OutlineFoundation/outline-server)  
 > ✅ Полностью автоматическая инициализация  
 > ✅ Поддержка метрик Prometheus  
 > ✅ Безопасный режим работы без `network_mode: host`
@@ -30,6 +30,8 @@ echo "PUBLIC_HOSTNAME=ваш.публичный.ip" > .env
 
 # 3. Запустите инициализацию и запуск
 ./start.sh
+## или
+make all
 ```
 
 Скрипт автоматически:
